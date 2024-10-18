@@ -44,7 +44,7 @@ export default [
 
       parserOptions: {
         project: 'tsconfig.json',
-        tsconfigRootDir: '/Users/brunosantos/www/challenges/test',
+        tsconfigRootDir: '/Users/brunosantos/www/challenges/nestjs-boilerplate',
       },
     },
 
