@@ -8,15 +8,15 @@ export async function generateDatabaseModule(
   projectPath: string,
 ): Promise<void> {
   const moduleContent: string = `import { Global, Module } from '@nestjs/common';
-    import { DatabaseService } from './database.service';
+import { DatabaseService } from './database.service';
 
-    @Global()
-    @Module({
-      providers: [DatabaseService],
-      exports: [DatabaseService],
-    })
-    export class DatabaseModule {}
-  `;
+@Global()
+@Module({
+  providers: [DatabaseService],
+  exports: [DatabaseService],
+})
+export class DatabaseModule {}
+`;
 
   await fs.writeFile(
     path.join(projectPath, 'src', 'database', 'database.module.ts'),
@@ -33,23 +33,23 @@ export async function generateDatabaseService(
   );
 
   const serviceContent: string = `import { Injectable, OnModuleInit } from '@nestjs/common';
-    import { ConfigService } from '@nestjs/config';
-    ${importConfig.imports}
-    import * as schema from './schema';
+import { ConfigService } from '@nestjs/config';
+${importConfig.imports}
+import * as schema from './schema';
 
-    @Injectable()
-    export class DatabaseService implements OnModuleInit {
-      public db: ReturnType<typeof drizzle>;
+@Injectable()
+export class DatabaseService implements OnModuleInit {
+  public db: ReturnType<typeof drizzle>;
 
-      constructor(private readonly configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) {}
 
-      async onModuleInit(): Promise<void> {
-        const databaseUrl: string = this.configService.get<string>('DATABASE_URL') || '';
-        ${importConfig.connection}
-        this.db = drizzle(connection, { schema });
-      }
-    }
-  `;
+  async onModuleInit(): Promise<void> {
+    const databaseUrl: string = this.configService.get<string>('DATABASE_URL') || '';
+    ${importConfig.connection}
+    this.db = drizzle(connection, { schema });
+  }
+}
+`;
 
   await fs.writeFile(
     path.join(projectPath, 'src', 'database', 'database.service.ts'),

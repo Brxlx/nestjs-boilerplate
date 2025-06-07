@@ -6,6 +6,7 @@ import ora from 'ora';
 import { createProject } from 'src/generators/project-generator.js';
 // Função principal para coletar informações do projeto
 export async function promptProjectDetails(): Promise<ProjectAnswers> {
+  const regex = /^[a-zA-Z0-9-_]+$/;
   const answers = await inquirer.prompt<ProjectAnswers>([
     {
       type: 'input',
@@ -16,7 +17,7 @@ export async function promptProjectDetails(): Promise<ProjectAnswers> {
         if (input.trim().length === 0) {
           return 'Nome do projeto é obrigatório!';
         }
-        if (!/^[a-zA-Z0-9-_]+$/.test(input)) {
+        if (!regex.test(input)) {
           return 'Nome do projeto deve conter apenas letras, números, hífens e underscores!';
         }
         return true;

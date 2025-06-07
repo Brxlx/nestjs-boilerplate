@@ -1,16 +1,17 @@
 {
-  "name": "nestjs-boilerplate",
-  "version": "0.0.1",
+  "name": "dmc",
+  "version": "0.0.1-alpha",
   "description": "",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
   "type": "module",
   "bin": {
-    "nestjs-boilerplate": "dist/main.js"
+    "dmc": "dist/main.js"
   },
   "scripts": {
     "build": "nest build",
+    "build:prod": "npm unlink -g dmc && nest build && npm link",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

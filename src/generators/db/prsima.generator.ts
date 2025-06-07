@@ -28,27 +28,27 @@ export async function setupPrisma(
   const databaseConfig: DatabaseConfig = getDatabaseConfig(config.database);
 
   const schemaContent: string = `// This is your Prisma schema file,
-    // learn more about it in the docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-    generator client {
-      provider = "prisma-client-js"
-    }
+generator client {
+  provider = "prisma-client-js"
+}
 
-    datasource db {
-      provider = "${databaseConfig.provider}"
-      url      = env("DATABASE_URL")
-    }
+datasource db {
+  provider = "${databaseConfig.provider}"
+  url      = env("DATABASE_URL")
+}
 
-    model User {
-      id        Int      @id @default(autoincrement())
-      email     String   @unique
-      name      String?
-      createdAt DateTime @default(now())
-      updatedAt DateTime @updatedAt
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-      @@map("users")
-    }
-  `;
+  @@map("users")
+}
+`;
 
   await fs.writeFile(
     path.join(projectPath, 'prisma', 'schema.prisma'),
@@ -57,23 +57,23 @@ export async function setupPrisma(
 
   // Gerar arquivo .env
   const envContent: string = `# Database
-    DATABASE_URL="${databaseConfig.url}"
+DATABASE_URL="${databaseConfig.url}"
 
-    # Application
-    PORT=3000
-    NODE_ENV=development
-  `;
+# Application
+PORT=3000
+NODE_ENV=development
+`;
 
   await fs.writeFile(path.join(projectPath, '.env'), envContent);
 
   // Gerar arquivo .env.example
   const envExampleContent: string = `# Database
-    DATABASE_URL="${databaseConfig.url}"
+DATABASE_URL="${databaseConfig.url}"
 
-    # Application
-    PORT=3000
-    NODE_ENV=development
-  `;
+# Application
+PORT=3000
+NODE_ENV=development
+`;
 
   await fs.writeFile(path.join(projectPath, '.env.example'), envExampleContent);
 
@@ -89,15 +89,15 @@ export async function setupPrisma(
 
 async function generatePrismaModule(projectPath: string) {
   const moduleContent = `import { Global, Module } from '@nestjs/common';
-    import { PrismaService } from './prisma.service';
+import { PrismaService } from './prisma.service';
 
-    @Global()
-    @Module({
-      providers: [PrismaService],
-      exports: [PrismaService],
-    })
-    export class PrismaModule {}
-  `;
+@Global()
+@Module({
+  providers: [PrismaService],
+  exports: [PrismaService],
+})
+export class PrismaModule {}
+`;
 
   await fs.writeFile(
     path.join(projectPath, 'src', 'prisma.module.ts'),
@@ -107,19 +107,19 @@ async function generatePrismaModule(projectPath: string) {
 
 async function generatePrismaService(projectPath: string) {
   const serviceContent = `import { Injectable, OnModuleInit } from '@nestjs/common';
-    import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
-    @Injectable()
-    export class PrismaService extends PrismaClient implements OnModuleInit {
-      async onModuleInit() {
-        await this.$connect();
-      }
+@Injectable()
+export class PrismaService extends PrismaClient implements OnModuleInit {
+  async onModuleInit() {
+    await this.$connect();
+  }
 
-      async onModuleDestroy() {
-        await this.$disconnect();
-      }
-    }
-  `;
+  async onModuleDestroy() {
+    await this.$disconnect();
+  }
+}
+`;
 
   await fs.writeFile(
     path.join(projectPath, 'src', 'prisma.service.ts'),
@@ -129,23 +129,23 @@ async function generatePrismaService(projectPath: string) {
 
 async function updateAppModuleForPrisma(projectPath: string): Promise<void> {
   const appModuleContent: string = `import { Module } from '@nestjs/common';
-    import { ConfigModule } from '@nestjs/config';
-    import { AppController } from './app.controller';
-    import { AppService } from './app.service';
-    import { PrismaModule } from './prisma.module';
+import { ConfigModule } from '@nestjs/config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { PrismaModule } from './prisma.module';
 
-    @Module({
-      imports: [
-        ConfigModule.forRoot({
-          isGlobal: true,
-        }),
-        PrismaModule,
-      ],
-      controllers: [AppController],
-      providers: [AppService],
-    })
-    export class AppModule {}
-  `;
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    PrismaModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+`;
 
   await fs.writeFile(
     path.join(projectPath, 'src', 'app.module.ts'),

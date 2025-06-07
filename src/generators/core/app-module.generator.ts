@@ -10,17 +10,17 @@ export async function generateAppModule(
   const imports: string[] = ['Module'];
   const moduleImports: string[] = [];
 
-  const appModuleContent: string = `import { ${imports.join(', ')} } from '@nestjs/common';
-    import { AppController } from './app.controller';
-    import { AppService } from './app.service';
+  const appModuleContent = `import { ${imports.join(', ')} } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
-    @Module({
-      imports: [${moduleImports.join(', ')}],
-      controllers: [AppController],
-      providers: [AppService],
-    })
-    export class AppModule {}
-    `;
+@Module({
+  imports: [${moduleImports.join(', ')}],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+`;
 
   await fs.writeFile(
     path.join(projectPath, 'src', 'app.module.ts'),
