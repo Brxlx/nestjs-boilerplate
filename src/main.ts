@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { CliApplication } from './common/Main.js';
+import { CliApplication } from './common/CliApplication.js';
 
 async function main(): Promise<void> {
   const app = new CliApplication();

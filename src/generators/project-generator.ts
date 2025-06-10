@@ -5,7 +5,7 @@ import { promisify } from 'util';
 
 import { ProjectConfig } from './@types/index.js';
 import { generatePackageJson } from './core/package-json.generator.js';
-import { generateBasicStructure } from './core/main.generator.js';
+import { generateBasicStructure } from './main.generator.js';
 import { setupPrisma } from './db/prsima.generator.js';
 import { setupDrizzle } from './db/drizzle.generator.js';
 import { gitignoreGenerator } from './core/gitignore.generator.js';

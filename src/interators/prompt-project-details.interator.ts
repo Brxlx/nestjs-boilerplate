@@ -12,7 +12,7 @@ export async function promptProjectDetails(): Promise<ProjectAnswers> {
       type: 'input',
       name: 'projectName',
       message: 'Qual o nome do seu projeto?',
-      default: 'my-nestjs-app',
+      default: 'app',
       validate: (input: string) => {
         if (input.trim().length === 0) {
           return 'Nome do projeto é obrigatório!';

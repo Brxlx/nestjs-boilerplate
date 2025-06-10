@@ -1,11 +1,13 @@
 import path from 'node:path';
 import fs from 'fs-extra';
-import { ProjectConfig } from '../@types/index.js';
+import { ProjectConfig } from './@types/index.js';
 import {
   generateAppModule,
   generateAppController,
   generateAppService,
-} from './app-module.generator.js';
+} from './core/app-module.generator.js';
+import { generateCaFolderStructure } from './custom/ca-folder.generator.js';
+import { generateBaseFiles } from './custom/ca-base-files.generator.js';
 
 export async function generateMainFile(projectPath: string) {
   const mainContent = `import { NestFactory } from '@nestjs/core';
@@ -37,4 +39,8 @@ export async function generateBasicStructure(
   await generateAppModule(projectPath, config);
   await generateAppController(projectPath);
   await generateAppService(projectPath);
+
+  // Generate CA folder structure
+  await generateCaFolderStructure(projectPath);
+  await generateBaseFiles(projectPath);
 }
